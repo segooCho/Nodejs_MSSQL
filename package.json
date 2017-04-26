@@ -1,0 +1,9 @@
+{
+  "name": "pureNodejscrudWithMsSQL",
+  "version": "0.0.0",
+  "description": "NodejsWithMsSQL",
+  "main": "server.js",
+  "dependencies": {
+    "mssql": "^2.3.1"
+  }
+}

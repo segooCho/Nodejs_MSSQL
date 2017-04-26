@@ -1,0 +1,130 @@
+
+
+ALTER TABLE "dbo"."Employees"
+	DROP CONSTRAINT "FK_Employees_Departments"
+GO
+DROP PROCEDURE "dbo"."API_SaveProduct"
+GO
+DROP PROCEDURE "dbo"."API_GetAllProducts"
+GO
+DROP TABLE "dbo"."Product"
+GO
+DROP TABLE "dbo"."Employees"
+GO
+DROP TABLE "dbo"."Departments"
+GO
+
+CREATE TABLE "dbo"."Departments"  ( 
+	"ID"            	int IDENTITY(1,1) NOT NULL,
+	"DepartmentName"	varchar(50) NOT NULL,
+	CONSTRAINT "PK_Departments" PRIMARY KEY CLUSTERED("ID")
+)
+GO
+CREATE TABLE "dbo"."Employees"  ( 
+	"ID"          	int IDENTITY(1001,1) NOT NULL,
+	"FirstName"   	varchar(50) NOT NULL,
+	"LastName"    	varchar(50) NOT NULL,
+	"Email"       	varchar(50) NOT NULL,
+	"DepartmentId"	int NOT NULL,
+	"PassWord"    	varchar(25) NOT NULL CONSTRAINT "DF_dbo_Employees_PassWord"  DEFAULT ((1111)),
+	CONSTRAINT "PK_Employees" PRIMARY KEY CLUSTERED("ID")
+)
+GO
+CREATE TABLE "dbo"."Product"  ( 
+	"Id"         	int IDENTITY(1,1) NOT NULL,
+	"Name"       	varchar(150) NOT NULL,
+	"Description"	varchar(max) NULL,
+	CONSTRAINT "PK_Product" PRIMARY KEY CLUSTERED("Id")
+)
+GO
+CREATE PROCEDURE "dbo"."API_GetAllProducts" 
+AS
+	SET NOCOUNT ON;
+
+	SELECT
+	   [Id]
+      ,[Name]
+	  ,[Description]
+	FROM [dbo].[Product];
+	
+	SET NOCOUNT OFF;
+GO
+CREATE PROCEDURE "dbo"."API_SaveProduct"
+	@inId INT,
+	@inName VARCHAR(150),
+	@inDescription VARCHAR(MAX)
+AS
+	SET NOCOUNT ON;
+	
+	IF (@inId = 0)
+	BEGIN
+		INSERT INTO [dbo].[Product] ([Name], [Description])
+		VALUES(@inName, @inDescription);
+		
+		SET @inId = SCOPE_IDENTITY();
+	END
+	ELSE
+	BEGIN
+		UPDATE [dbo].[Product] WITH(ROWLOCK,UPDLOCK) SET 
+			[Name] = @inName,
+			[Description] = @inDescription
+		WHERE ([Id] = @inId);
+	END;
+
+	SELECT
+	   [Id]
+      ,[Name]
+	  ,[Description]
+	FROM [dbo].[Product]
+	WHERE ([Id] = @inId);
+	
+	SET NOCOUNT OFF;
+GO
+
+ALTER TABLE "dbo"."Employees"
+	ADD CONSTRAINT "FK_Employees_Departments"
+	FOREIGN KEY("DepartmentId")
+	REFERENCES "dbo"."Departments"("ID")
+	ON DELETE NO ACTION 
+	ON UPDATE NO ACTION 
+GO
+
+
+
+-- INSERTING DATA INTO TABLES
+
+INSERT INTO Departments VALUES('Accounting')
+GO
+INSERT INTO Departments VALUES('Marketing')
+GO
+INSERT INTO Departments VALUES('Sales')
+GO
+INSERT INTO Departments VALUES('Office Support')
+GO
+INSERT INTO Departments VALUES('Administration')
+GO
+INSERT INTO Departments VALUES('IT')
+GO
+INSERT INTO Departments VALUES('Human Resource')
+GO
+
+INSERT INTO EMPLOYEES VALUES ( 'Alan',	'Alsop','alan.alsop@gmail.com',1 )
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Justin','Hill','justin.hill@gmail.com',3)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Karen','Walsh','karen.walsh@gmail.com',5)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Sarah','Coleman','sarah.coleman@gmail.com',6)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Steven','Lyman','steven.lyman@gmail.com',7)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Adam','Butler','adam.butler@gmail.com',5)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Ruth','Morrison','ruth.morrison@gmail.com',6)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Amelia','Randall','amelia.randall@gmail.com',7)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Connor','Terry','connor.terry@gmail.com',2)
+GO
+INSERT INTO EMPLOYEES VALUES ( 'Sue','Taylor','sue.taylor@gmail.com',2)
+GO
