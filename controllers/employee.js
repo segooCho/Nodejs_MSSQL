@@ -13,22 +13,6 @@ exports.getEmployeesAllGET = function (req, res) {
     });
 };
 
-exports.getEmployeesIdGET = function (req, res, id) {
-
-    db.executeSql("Select ID, PassWord, FirstName, LastName, Email, DepartmentId from Employees Where id="+id, function (data, err) {
-        if (err) {
-            httpMsgs.show500(req, res, err);
-        } else {
-            if (data.length>0) {
-                httpMsgs.sendJson(req, res, data);
-            } else {
-                httpMsgs.sendNoDataFound(req, res);
-            }
-        }
-    });
-
-};
-
 exports.getEmployeesIdPOST = function (req, res, id, password) {
     db.executeSql("Select id, password from Employees Where id="+id+" And password="+password, function (data, err) {
         if (err) {
@@ -44,6 +28,21 @@ exports.getEmployeesIdPOST = function (req, res, id, password) {
         }
     });
 
+};
+
+exports.getProductBarcodePOST = function (req, res, barcode) {
+
+    db.executeSql("Select LastName, Email from Employees Where FirstName='"+barcode+"'", function (data, err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);
+        } else {
+            if (data.length>0) {
+                httpMsgs.sendJson(req, res, data);
+            } else {
+                httpMsgs.sendNoDataFound(req, res);
+            }
+        }
+    });
 };
 
 

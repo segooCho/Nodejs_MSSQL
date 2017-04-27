@@ -5,9 +5,7 @@ var httpMsgs = require('./httpMsgs.js');
 var querystring = require('querystring');
 
 http.createServer(function (req, res) {
-    
     switch (req.method) {
-        
         case "GET":
             if (req.url === "/") {
                 httpMsgs.showHome(req, res);
@@ -15,14 +13,7 @@ http.createServer(function (req, res) {
                 console.log("Log:GET-getEmployeesAllGET"); 
                 emp.getEmployeesAllGET(req, res);                
             } else {
-                var empnoPatt = "[0-9]+";
-                var patt = new RegExp("/employees/" + empnoPatt);
-                if (patt.test(req.url)) {
-                    patt = new RegExp(empnoPatt);
-                    var empId = patt.exec(req.url);
-                    console.log("Log:GET-getEmployeesAllGET"); 
-                    emp.getEmployeesIdGET(req, res, empId);
-                }
+                httpMsgs.show404(req, res);
             }
             break;
         case "POST":
@@ -38,6 +29,14 @@ http.createServer(function (req, res) {
                     if (!data.password) httpMsgs.show405(req, res);
                     console.log("Log:POST-getEmployeesIdPOST"); 
                     emp.getEmployeesIdPOST(req, res, data.id, data.password);
+                });
+            } else if (req.url === "/product") {
+                req.on('data', function(params) { 
+                    var data = querystring.parse(params.toString());
+                    console.log(data.barcode.toString()); 
+                    if (!data.barcode) httpMsgs.show405(req, res);
+                    console.log("Log:POST-getEmployeesIdPOST"); 
+                    emp.getProductBarcodePOST(req, res, data.barcode);
                 });
             } else {
                 httpMsgs.show404(req, res);
