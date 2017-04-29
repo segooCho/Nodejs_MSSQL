@@ -44,16 +44,18 @@ http.createServer(function (req, res) {
             break;
         case "PUT":
             ////POST request should have request body
-            if (req.url === "/employees") {
+            if (req.url === "/product") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
                     //console.log(data.id.toString()); 
                     //console.log(data.password.toString()); 
                     if (!data.id) httpMsgs.show405(req, res);
-                    if (!data.password) httpMsgs.show405(req, res);
+                    if (!data.barcode) httpMsgs.show405(req, res);
+                    if (!data.warrantyType) httpMsgs.show405(req, res);
+                    if (!data.warrantyDate) httpMsgs.show405(req, res);
                     //res.writeHead(200, {'Content-Type':'text/html'});
                     console.log("Log:PUT-getEmployeesPasswordPUT"); 
-                    emp.getEmployeesPasswordPUT(req, res, data.id, data.password);
+                    emp.getEmployeesPUT(req, res, data.id, data.barcode, data.warrantyType, data.warrantyDate);
                 });
 
                 /*

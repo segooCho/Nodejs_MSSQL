@@ -32,7 +32,7 @@ exports.getEmployeesIdPOST = function (req, res, id, password) {
 
 exports.getProductBarcodePOST = function (req, res, barcode) {
 
-    db.executeSql("Select LastName, Email from Employees Where FirstName='"+barcode+"'", function (data, err) {
+    db.executeSql("Select FirstName, LastName, Email from Employees Where FirstName='"+barcode+"'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
@@ -48,13 +48,13 @@ exports.getProductBarcodePOST = function (req, res, barcode) {
 
 
 // POST request. need request body
-exports.getEmployeesPasswordPUT = function (req, res, id, password) {
+exports.getEmployeesPUT = function (req, res, id, barcode, warrantyType, warrantyDate) {
     try {
-        db.executeSql("Update Employees Set password="+password+" Where id="+id, function (data, err) {
+        db.executeSql("Insert into Warranty (Barcode,Id,WarrantyType,WarrantyDate) Values('"+id+"','"+barcode+"','"+warrantyType+"','"+warrantyDate+"')", function (data, err) {
             if (err) {
                 httpMsgs.show500(req, res, err);
             } else {
-                httpMsgs.send200(req, res);
+                httpMsgs.sendNoDataFound(req, res);
             }
         });
     } catch (ex) {
