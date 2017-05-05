@@ -33,10 +33,20 @@ http.createServer(function (req, res) {
             } else if (req.url === "/product") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data.barcode.toString()); 
+                    //console.log(data.barcode.toString()); 
                     if (!data.barcode) httpMsgs.show405(req, res);
                     console.log("Log:POST-getEmployeesIdPOST"); 
                     emp.getProductBarcodePOST(req, res, data.barcode);
+                });
+            } else if (req.url === "/warranty") {
+                req.on('data', function(params) { 
+                    var data = querystring.parse(params.toString());
+                    console.log(data.id.toString()); 
+                    console.log(data.date.toString()); 
+                    if (!data.id) httpMsgs.show405(req, res);
+                    if (!data.date) httpMsgs.show405(req, res);
+                    console.log("Log:POST-getEmployeesIdPOST"); 
+                    emp.getWarrantyPOST(req, res, data.id, data.date);
                 });
             } else {
                 httpMsgs.show404(req, res);
@@ -49,13 +59,13 @@ http.createServer(function (req, res) {
                     var data = querystring.parse(params.toString());
                     //console.log(data.id.toString()); 
                     //console.log(data.password.toString()); 
-                    if (!data.id) httpMsgs.show405(req, res);
                     if (!data.barcode) httpMsgs.show405(req, res);
+                    if (!data.id) httpMsgs.show405(req, res);
                     if (!data.warrantyType) httpMsgs.show405(req, res);
                     if (!data.warrantyDate) httpMsgs.show405(req, res);
                     //res.writeHead(200, {'Content-Type':'text/html'});
                     console.log("Log:PUT-getEmployeesPasswordPUT"); 
-                    emp.getEmployeesPUT(req, res, data.id, data.barcode, data.warrantyType, data.warrantyDate);
+                    emp.getEmployeesPUT(req, res, data.barcode, data.id, data.warrantyType, data.warrantyDate);
                 });
 
                 /*

@@ -45,12 +45,28 @@ exports.getProductBarcodePOST = function (req, res, barcode) {
     });
 };
 
+exports.getWarrantyPOST = function (req, res, id, date) {
+    db.executeSql("Select Barcode, Id, WarrantyType from Warranty Where id='"+id+"' And convert(varchar, SDate, 112)='"+date+"'", function (data, err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);
+        } else {
+            if (data.length>0) {
+                //res.writeHead(200, {'Content-Type':'text/html'}); 
+                httpMsgs.sendJson(req, res, data);
+            } else {
+                httpMsgs.show400(req, res);
+                //httpMsgs.sendNoDataFound(req, res);
+            }
+        }
+    });
+
+};
 
 
 // POST request. need request body
-exports.getEmployeesPUT = function (req, res, id, barcode, warrantyType, warrantyDate) {
+exports.getEmployeesPUT = function (req, res, barcode, id, warrantyType, warrantyDate) {
     try {
-        db.executeSql("Insert into Warranty (Barcode,Id,WarrantyType,WarrantyDate) Values('"+id+"','"+barcode+"','"+warrantyType+"','"+warrantyDate+"')", function (data, err) {
+        db.executeSql("Insert into Warranty (Barcode,Id,WarrantyType,WarrantyDate) Values('"+barcode+"','"+id+"','"+warrantyType+"','"+warrantyDate+"')", function (data, err) {
             if (err) {
                 httpMsgs.show500(req, res, err);
             } else {
