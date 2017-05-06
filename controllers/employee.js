@@ -46,7 +46,7 @@ exports.getProductBarcodePOST = function (req, res, barcode) {
 };
 
 exports.getWarrantyPOST = function (req, res, id, date) {
-    db.executeSql("Select Barcode, Id, WarrantyType from Warranty Where id='"+id+"' And convert(varchar, SDate, 112)='"+date+"'", function (data, err) {
+    db.executeSql("Select Barcode, Id, WarrantyType, WarrantyDate from Warranty Where id='"+id+"' And convert(varchar, SDate, 112)='"+date+"'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
