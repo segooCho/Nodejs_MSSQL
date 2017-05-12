@@ -12,6 +12,15 @@ http.createServer(function (req, res) {
             } else if (req.url === "/employees") {
                 console.log("Log:GET-getEmployeesAllGET"); 
                 emp.getEmployeesAllGET(req, res);                
+            } else if (req.url === "/WarrantyCode") {
+                console.log("Log:GET-getWarrantyCodeAllGET"); 
+                emp.getWarrantyCodeAllGET(req, res);                
+            } else if (req.url === "/CorporationInfo") {
+                console.log("Log:GET-getCorporationInfoAllGET"); 
+                emp.getCorporationInfoAllGET(req, res);                
+            } else if (req.url === "/ServiceCenter") {
+                console.log("Log:GET-getServiceCenterAllGET"); 
+                emp.getServiceCenterAllGET(req, res);                
             } else {
                 httpMsgs.show404(req, res);
             }
@@ -35,17 +44,17 @@ http.createServer(function (req, res) {
                     var data = querystring.parse(params.toString());
                     //console.log(data.barcode.toString()); 
                     if (!data.barcode) httpMsgs.show405(req, res);
-                    console.log("Log:POST-getEmployeesIdPOST"); 
+                    console.log("Log:POST-getProductBarcodePOST"); 
                     emp.getProductBarcodePOST(req, res, data.barcode);
                 });
             } else if (req.url === "/warranty") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data.id.toString()); 
-                    console.log(data.date.toString()); 
+                    //console.log(data.id.toString()); 
+                    //console.log(data.date.toString()); 
                     if (!data.id) httpMsgs.show405(req, res);
                     if (!data.date) httpMsgs.show405(req, res);
-                    console.log("Log:POST-getEmployeesIdPOST"); 
+                    console.log("Log:POST-getWarrantyPOST"); 
                     emp.getWarrantyPOST(req, res, data.id, data.date);
                 });
             } else {
@@ -61,11 +70,11 @@ http.createServer(function (req, res) {
                     //console.log(data.password.toString()); 
                     if (!data.barcode) httpMsgs.show405(req, res);
                     if (!data.id) httpMsgs.show405(req, res);
-                    if (!data.warrantyType) httpMsgs.show405(req, res);
+                    if (!data.warrantyCode) httpMsgs.show405(req, res);
                     if (!data.warrantyDate) httpMsgs.show405(req, res);
                     //res.writeHead(200, {'Content-Type':'text/html'});
-                    console.log("Log:PUT-getEmployeesPasswordPUT"); 
-                    emp.getEmployeesPUT(req, res, data.barcode, data.id, data.warrantyType, data.warrantyDate);
+                    console.log("Log:PUT-getEmployeesPUT"); 
+                    emp.getEmployeesPUT(req, res, data.barcode, data.id, data.warrantyCode, data.warrantyDate);
                 });
 
                 /*

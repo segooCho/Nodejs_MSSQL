@@ -13,8 +13,38 @@ exports.getEmployeesAllGET = function (req, res) {
     });
 };
 
+exports.getWarrantyCodeAllGET = function (req, res) {
+    db.executeSql("select WarrantyCode as Spinner from WarrantyCode", function (data,err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);           
+        } else {
+            httpMsgs.sendJson(req, res, data);         
+        }     
+    });
+};
+
+exports.getCorporationInfoAllGET = function (req, res) {
+    db.executeSql("select Code+':'+Name as Spinner from CorporationInfo", function (data,err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);           
+        } else {
+            httpMsgs.sendJson(req, res, data);         
+        }     
+    });
+};
+
+exports.getServiceCenterAllGET = function (req, res) {
+    db.executeSql("select Code+':'+Name as Spinner  from ServiceCenter", function (data,err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);           
+        } else {
+            httpMsgs.sendJson(req, res, data);         
+        }     
+    });
+};
+
 exports.getEmployeesIdPOST = function (req, res, id, password) {
-    db.executeSql("Select id, password from Employees Where id="+id+" And password="+password, function (data, err) {
+    db.executeSql("Select id, password, '0003:CorporationInfo0003' as CorporationInfo, '0002:ServiceCenter0002' as ServiceCenter from Employees Where id="+id+" And password="+password, function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
@@ -32,7 +62,7 @@ exports.getEmployeesIdPOST = function (req, res, id, password) {
 
 exports.getProductBarcodePOST = function (req, res, barcode) {
 
-    db.executeSql("Select FirstName, LastName, Email from Employees Where FirstName='"+barcode+"'", function (data, err) {
+    db.executeSql("Select FirstName as UserSpec, LastName as UserSpecName, Email as ModelName, ID as Customer from Employees Where FirstName='"+barcode+"'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
@@ -64,9 +94,9 @@ exports.getWarrantyPOST = function (req, res, id, date) {
 
 
 // POST request. need request body
-exports.getEmployeesPUT = function (req, res, barcode, id, warrantyType, warrantyDate) {
+exports.getEmployeesPUT = function (req, res, barcode, id, warrantyCode, warrantyDate) {
     try {
-        db.executeSql("Insert into Warranty (Barcode,Id,WarrantyType,WarrantyDate) Values('"+barcode+"','"+id+"','"+warrantyType+"','"+warrantyDate+"')", function (data, err) {
+        db.executeSql("Insert into Warranty (Barcode,Id,WarrantyType,WarrantyDate) Values('"+barcode+"','"+id+"','"+warrantyCode+"','"+warrantyDate+"')", function (data, err) {
             if (err) {
                 httpMsgs.show500(req, res, err);
             } else {
