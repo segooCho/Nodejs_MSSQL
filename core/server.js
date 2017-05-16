@@ -31,9 +31,10 @@ http.createServer(function (req, res) {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
                     console.log(data.mode.toString()); 
-                    console.log(data.param1.toString());  
+                    //console.log(data.param1.toString());  
                     if (!data.mode) httpMsgs.show405(req, res);
-                    //if (!data.param1) httpMsgs.show405(req, res); //param1 이 업는 경우가 있어 오류 발생
+                    //param1 이 없는 경우가 있어 오류 발생
+                    //if (!data.param1) httpMsgs.show405(req, res); 
                     console.log("Log:POST-getCommomSpinner"); 
                     emp.getCommomSpinner(req, res, data.mode, data.param1);
                 });
@@ -46,6 +47,16 @@ http.createServer(function (req, res) {
                     if (!data.id) httpMsgs.show405(req, res);
                     console.log("Log:POST-getBarcode"); 
                     emp.getBarcode(req, res, data.barcode, data.id);
+                });
+            } else if (req.url === "/expiryDate") {
+                req.on('data', function(params) { 
+                    var data = querystring.parse(params.toString());
+                    //console.log(data.barcode.toString()); 
+                    //console.log(data.id.toString()); 
+                    if (!data.warrantyCode) httpMsgs.show405(req, res);
+                    if (!data.goingOutDate) httpMsgs.show405(req, res);
+                    console.log("Log:POST-getExpiryDate"); 
+                    emp.getExpiryDate(req, res, data.warrantyCode, data.goingOutDate);
                 });
 
 

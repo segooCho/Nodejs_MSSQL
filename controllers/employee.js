@@ -45,6 +45,28 @@ exports.getBarcode = function (req, res, barcode, id) {
     });
 };
 
+exports.getExpiryDate = function (req, res, warrantyCode, goingOutDate) {
+    db.executeSql("EXEC SP_APP_EXPIRYDATE_SELECT_REV1 '"+warrantyCode+"', '" + goingOutDate + "'", function (data, err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);
+        } else {
+            if (data.length>0) {
+                httpMsgs.sendJson(req, res, data);
+            } else {
+                httpMsgs.sendNoDataFound(req, res);
+            }
+        }
+    });
+};
+
+
+
+
+
+
+
+
+
 
 
 
