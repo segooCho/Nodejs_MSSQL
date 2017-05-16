@@ -9,18 +9,6 @@ http.createServer(function (req, res) {
         case "GET":
             if (req.url === "/") {
                 httpMsgs.showHome(req, res);
-            } else if (req.url === "/employees") {
-                console.log("Log:GET-getEmployeesAllGET"); 
-                emp.getEmployeesAllGET(req, res);                
-            } else if (req.url === "/WarrantyCode") {
-                console.log("Log:GET-getWarrantyCodeAllGET"); 
-                emp.getWarrantyCodeAllGET(req, res);                
-            } else if (req.url === "/CorporationInfo") {
-                console.log("Log:GET-getCorporationInfoAllGET"); 
-                emp.getCorporationInfoAllGET(req, res);                
-            } else if (req.url === "/ServiceCenter") {
-                console.log("Log:GET-getServiceCenterAllGET"); 
-                emp.getServiceCenterAllGET(req, res);                
             } else {
                 httpMsgs.show404(req, res);
             }
@@ -29,24 +17,44 @@ http.createServer(function (req, res) {
             ////POST request should have request body
             if (req.url === "/") {
                 httpMsgs.showHome(req, res);
-            } else if (req.url === "/employees") {
+            } else if (req.url === "/login") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
                     //console.log(data.id.toString()); 
                     //console.log(data.password.toString()); 
                     if (!data.id) httpMsgs.show405(req, res);
                     if (!data.password) httpMsgs.show405(req, res);
-                    console.log("Log:POST-getEmployeesIdPOST"); 
-                    emp.getEmployeesIdPOST(req, res, data.id, data.password);
+                    console.log("Log:POST-getLogin"); 
+                    emp.getLogin(req, res, data.id, data.password);
                 });
-            } else if (req.url === "/product") {
+            } else if (req.url === "/commonSpinner") {
+                req.on('data', function(params) { 
+                    var data = querystring.parse(params.toString());
+                    console.log(data.mode.toString()); 
+                    console.log(data.param1.toString());  
+                    if (!data.mode) httpMsgs.show405(req, res);
+                    //if (!data.param1) httpMsgs.show405(req, res); //param1 이 업는 경우가 있어 오류 발생
+                    console.log("Log:POST-getCommomSpinner"); 
+                    emp.getCommomSpinner(req, res, data.mode, data.param1);
+                });
+            } else if (req.url === "/barcode") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
                     //console.log(data.barcode.toString()); 
+                    //console.log(data.id.toString()); 
                     if (!data.barcode) httpMsgs.show405(req, res);
-                    console.log("Log:POST-getProductBarcodePOST"); 
-                    emp.getProductBarcodePOST(req, res, data.barcode);
+                    if (!data.id) httpMsgs.show405(req, res);
+                    console.log("Log:POST-getBarcode"); 
+                    emp.getBarcode(req, res, data.barcode, data.id);
                 });
+
+
+
+
+
+
+
+
             } else if (req.url === "/warranty") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());

@@ -3,66 +3,36 @@ var httpMsgs = require('../core/httpMsgs');
 var util = require('util');
 
 //// modular approach
-exports.getEmployeesAllGET = function (req, res) {
-    db.executeSql("Select * from Employees", function (data,err) {
-        if (err) {
-            httpMsgs.show500(req, res, err);           
-        } else {
-            httpMsgs.sendJson(req, res, data);         
-        }     
-    });
-};
-
-exports.getWarrantyCodeAllGET = function (req, res) {
-    db.executeSql("select WarrantyCode as Spinner from WarrantyCode", function (data,err) {
-        if (err) {
-            httpMsgs.show500(req, res, err);           
-        } else {
-            httpMsgs.sendJson(req, res, data);         
-        }     
-    });
-};
-
-exports.getCorporationInfoAllGET = function (req, res) {
-    db.executeSql("select Code+':'+Name as Spinner from CorporationInfo", function (data,err) {
-        if (err) {
-            httpMsgs.show500(req, res, err);           
-        } else {
-            httpMsgs.sendJson(req, res, data);         
-        }     
-    });
-};
-
-exports.getServiceCenterAllGET = function (req, res) {
-    db.executeSql("select Code+':'+Name as Spinner  from ServiceCenter", function (data,err) {
-        if (err) {
-            httpMsgs.show500(req, res, err);           
-        } else {
-            httpMsgs.sendJson(req, res, data);         
-        }     
-    });
-};
-
-exports.getEmployeesIdPOST = function (req, res, id, password) {
-    db.executeSql("Select id, password, '0003:CorporationInfo0003' as CorporationInfo, '0002:ServiceCenter0002' as ServiceCenter from Employees Where id="+id+" And password="+password, function (data, err) {
+exports.getLogin = function (req, res, id, password) {
+    db.executeSql("EXEC SP_APP_USER_LOGIN_REV1 '"+id+"','"+password+"'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
             if (data.length>0) {
-                //res.writeHead(200, {'Content-Type':'text/html'}); 
                 httpMsgs.sendJson(req, res, data);
             } else {
                 httpMsgs.show400(req, res);
-                //httpMsgs.sendNoDataFound(req, res);
             }
         }
     });
-
 };
 
-exports.getProductBarcodePOST = function (req, res, barcode) {
+exports.getCommomSpinner = function (req, res, mode, param1) {
+    db.executeSql("EXEC SP_APP_COMMON_SPINNER_REV1 '"+mode+"','"+param1+"'", function (data, err) {
+        if (err) {
+            httpMsgs.show500(req, res, err);
+        } else {
+            if (data.length>0) {
+                httpMsgs.sendJson(req, res, data);
+            } else {
+                httpMsgs.show400(req, res);
+            }
+        }
+    });
+};
 
-    db.executeSql("Select FirstName as UserSpec, LastName as UserSpecName, Email as ModelName, ID as Customer from Employees Where FirstName='"+barcode+"'", function (data, err) {
+exports.getBarcode = function (req, res, barcode, id) {
+    db.executeSql("EXEC SP_APP_SERIAL_SELECT_REV1 '"+barcode+"', '" + id + "'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {
@@ -74,6 +44,20 @@ exports.getProductBarcodePOST = function (req, res, barcode) {
         }
     });
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 exports.getWarrantyPOST = function (req, res, id, date) {
     db.executeSql("Select Barcode, Id, WarrantyType, WarrantyDate from Warranty Where id='"+id+"' And convert(varchar, SDate, 112)='"+date+"'", function (data, err) {
