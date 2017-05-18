@@ -20,7 +20,7 @@ http.createServer(function (req, res) {
             } else if (req.url === "/login") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data);
                     if (!data.userId) httpMsgs.show405(req, res);
                     if (!data.password) httpMsgs.show405(req, res);
                     console.log("Log:POST-getLogin"); 
@@ -29,7 +29,7 @@ http.createServer(function (req, res) {
             } else if (req.url === "/commonSpinner") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data); 
                     if (!data.mode) httpMsgs.show405(req, res);
                     //param1 이 없는 경우도 있음 오류
                     //if (!data.param1) httpMsgs.show405(req, res); 
@@ -39,7 +39,7 @@ http.createServer(function (req, res) {
             } else if (req.url === "/barcode") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data); 
                     if (!data.barcode) httpMsgs.show405(req, res);
                     if (!data.id) httpMsgs.show405(req, res);
                     console.log("Log:POST-getBarcode"); 
@@ -48,7 +48,7 @@ http.createServer(function (req, res) {
             } else if (req.url === "/expiryDate") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data); 
                     if (!data.warrantyCode) httpMsgs.show405(req, res);
                     if (!data.goingOutDate) httpMsgs.show405(req, res);
                     console.log("Log:POST-getExpiryDate"); 
@@ -57,7 +57,7 @@ http.createServer(function (req, res) {
             } else if (req.url === "/workList") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data); 
                     if (!data.regDate) httpMsgs.show405(req, res);
                     if (!data.userId) httpMsgs.show405(req, res);
                     console.log("Log:POST-getWorkList"); 
@@ -72,7 +72,7 @@ http.createServer(function (req, res) {
             if (req.url === "/barcodeSave") {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
-                    console.log(data); 
+                    //console.log(data); 
                     if (!data.serialNo) httpMsgs.show405(req, res);
                     if (!data.userSpec) httpMsgs.show405(req, res);
                     if (!data.goingOutDate) httpMsgs.show405(req, res);
