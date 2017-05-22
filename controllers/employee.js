@@ -102,8 +102,8 @@ exports.updateBarcodeSave = function (  req
     }
 };
 
-exports.getWorkList = function (req, res, regDate, userId) {
-    db.executeSql("EXEC SP_APP_WARRANTYSAVE_SELECT_REV1 '"+regDate+"','"+userId+"'", function (data, err) {
+exports.getWorkList = function (req, res, mode, date, userId) {
+    db.executeSql("EXEC SP_APP_WARRANTYSAVE_SELECT_REV1 '"+mode+"','"+date+"','"+userId+"'", function (data, err) {
         if (err) {
             httpMsgs.show500(req, res, err);
         } else {

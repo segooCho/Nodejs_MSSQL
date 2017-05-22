@@ -58,10 +58,11 @@ http.createServer(function (req, res) {
                 req.on('data', function(params) { 
                     var data = querystring.parse(params.toString());
                     //console.log(data); 
-                    if (!data.regDate) httpMsgs.show405(req, res);
+                    if (!data.mode) httpMsgs.show405(req, res);
+                    if (!data.date) httpMsgs.show405(req, res);
                     if (!data.userId) httpMsgs.show405(req, res);
                     console.log("Log:POST-getWorkList"); 
-                    emp.getWorkList(req, res, data.regDate, data.userId);
+                    emp.getWorkList(req, res, data.mode, data.date, data.userId);
                 });
             } else {
                 httpMsgs.show404(req, res);
