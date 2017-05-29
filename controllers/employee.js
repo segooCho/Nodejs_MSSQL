@@ -62,12 +62,12 @@ exports.getExpiryDate = function (req, res, warrantyCode, goingOutDate) {
 exports.updateBarcodeSave = function (  req
                                         ,res 
                                         ,serialNo
-                                        ,userSpec
                                         ,goingOutDate
                                         ,warrantyCode
                                         ,buyer
                                         ,serviceCenter
                                         ,description
+                                        ,quantity
                                         ,fileName1
                                         ,filePath1
                                         ,fileName2
@@ -75,13 +75,13 @@ exports.updateBarcodeSave = function (  req
                                         ,createdBy) {
     try {
         db.executeSql("EXEC SP_APP_WARRANTY_INSERT_REV1 '"+serialNo+
-                                                        "','"+userSpec+
                                                         "','"+goingOutDate+
                                                         "','"+warrantyCode+
                                                         "','"+buyer+
                                                         "','"+serviceCenter+
                                                         "','"+description+
-                                                        "','"+fileName1+
+                                                        "',"+quantity+
+                                                        ",'"+fileName1+
                                                         "','"+filePath1+
                                                         "','"+fileName2+
                                                         "','"+filePath2+

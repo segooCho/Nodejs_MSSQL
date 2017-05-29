@@ -75,22 +75,22 @@ http.createServer(function (req, res) {
                     var data = querystring.parse(params.toString());
                     //console.log(data); 
                     if (!data.serialNo) httpMsgs.show405(req, res);
-                    if (!data.userSpec) httpMsgs.show405(req, res);
                     if (!data.goingOutDate) httpMsgs.show405(req, res);
                     if (!data.warrantyCode) httpMsgs.show405(req, res);
                     if (!data.buyer) httpMsgs.show405(req, res);
                     if (!data.serviceCenter) httpMsgs.show405(req, res);
+                    if (!data.quantity) httpMsgs.show405(req, res);
                     if (!data.createdBy) httpMsgs.show405(req, res);
                     console.log("Log:PUT-updateBarcodeSave"); 
                     emp.updateBarcodeSave(  req 
                                             ,res
                                             ,data.serialNo
-                                            ,data.userSpec
                                             ,data.goingOutDate
                                             ,data.warrantyCode
                                             ,data.buyer
                                             ,data.serviceCenter
                                             ,data.description
+                                            ,data.quantity
                                             ,data.fileName1
                                             ,data.filePath1
                                             ,data.fileName2
